@@ -9,6 +9,20 @@ const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
+const mysql = require('mysql')
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'IP_Project'
+});
+db.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Data base connected')
+})
 
 const initializePassport = require('./passport-config')
 initializePassport(
@@ -52,6 +66,7 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 app.post('/register', checkNotAuthenticated, async(req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
+            // db.query("INSERT INTO users ")
         users.push({
             id: Date.now().toString(),
             name: req.body.name,
