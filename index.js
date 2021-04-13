@@ -66,13 +66,13 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 app.post('/register', checkNotAuthenticated, async(req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-            // db.query("INSERT INTO users ")
-        users.push({
-            id: Date.now().toString(),
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword
-        })
+        db.query("INSERT INTO test (id, name, email, password) VALUES (?,?,?,?)", [Date.now().toString(), req.body.name, req.body.email, hashedPassword])
+            // users.push({
+            //     id: Date.now().toString(),
+            //     name: req.body.name,
+            //     email: req.body.email,
+            //     password: hashedPassword
+            // })
         res.redirect('/login')
     } catch {
         res.redirect('/register')
