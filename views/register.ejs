@@ -25,24 +25,20 @@
         <input type="tel" id="phone" name="phone">
     </div>
     <div>
-        <input type="checkbox" id="izolat" name="izolat" value="izolat">
+        <input type="checkbox" id="izolat" name="izolat" value="true">
         <label for="izolare"> Sunt izolat</label>
     </div>
     <div>
-        <input type="checkbox" id="nuIzolat" name="nuIzolat" value="nuIzolat">
-        <label for="izolare"> Nu sunt izolat</label><br>
+        <label for="distanta">Distanta maxima</label>
+        <input type="text" id="distanta" name="distanta">
     </div>
     <div>
-        <label for="adress">Distanta maxima</label>
-        <input type="text" id="distanta" name="distanta" required>
+        <label for="appt1">Ora de incepere</label>
+        <input type="time" id="oraStart" name="appt">
     </div>
     <div>
-        <label for="appt">Ora de incepere</label>
-        <input type="time" id="appt" name="appt">
-    </div>
-    <div>
-        <label for="appt">Ora de final</label>
-        <input type="time" id="appt" name="appt">
+        <label for="appt2">Ora de final</label>
+        <input type="time" id="oraFinal" name="appt">
     </div>
     <button type="submit">Register</button>
 </form>

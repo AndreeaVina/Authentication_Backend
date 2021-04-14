@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'IP_Project'
+    database: 'ip_project'
 });
 db.connect((err) => {
     if (err) {
@@ -63,16 +63,27 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
 })
 
-app.post('/register', checkNotAuthenticated, async(req, res) => {
+app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        db.query("INSERT INTO test (id, name, email, password) VALUES (?,?,?,?)", [Date.now().toString(), req.body.name, req.body.email, hashedPassword])
-            // users.push({
-            //     id: Date.now().toString(),
-            //     name: req.body.name,
-            //     email: req.body.email,
-            //     password: hashedPassword
-            // })
+        var i = req.body.izolat
+        if (i == "true") i = "1"
+        else i = "0"
+        db.query("INSERT INTO users (id, name, surname, email, password, adress, phone_number, 	isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            [Date.now().toString(), req.body.name, req.body.surname, req.body.email, hashedPassword, req.body.adress, req.body.phone, i, req.body.distanta, req.body.oraStart, req.body.oraFinal])
+        users.push({
+            id: Date.now().toString(),
+            name: req.body.name,
+            surname: req.body.surname,
+            email: req.body.email,
+            password: hashedPassword,
+            adress: req.body.adress,
+            phone: req.body.phone,
+            isolated: i,
+            maxDistanceAccepted: req.body.distanta,
+            startHour: req.body.oraStart,
+            finalHour: req.body.oraFinal
+        })
         res.redirect('/login')
     } catch {
         res.redirect('/register')
