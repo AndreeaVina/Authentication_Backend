@@ -3,7 +3,8 @@ const {
     getUserByUserEmail,
     getUserByUserId,
     getUsers,
-    updateUser,
+    updateAdress,
+    updatePhone,
     deleteUser
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
@@ -94,19 +95,29 @@ module.exports = {
         });
     },
     updateUsers: (req, res) => {
-        const body = req.body;
-        const salt = genSaltSync(10);
-        body.password = hashSync(body.password, salt);
-        updateUser(body, (err, results) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            return res.json({
-                success: 1,
-                message: "updated successfully"
+        var body = req.body;
+        if (body.adress != undefined)
+            updateAdress(body, (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                return res.json({
+                    success: 1,
+                    message: "updated successfully"
+                });
             });
-        });
+        if (body.phone_number != undefined)
+            updatePhone(body, (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                return res.json({
+                    success: 1,
+                    message: "updated successfully"
+                });
+            });
     },
     deleteUser: (req, res) => {
         const data = req.body;
