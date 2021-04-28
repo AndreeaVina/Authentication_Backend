@@ -3,6 +3,7 @@ const {
     getUserByEmail,
     getUsers,
     updateAdress,
+
     updatePhone,
     deleteUser
 } = require("./user.service");
