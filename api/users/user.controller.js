@@ -1,7 +1,6 @@
 const {
     create,
-    getUserByUserEmail,
-    getUserByUserId,
+    getUserByEmail,
     getUsers,
     updateAdress,
     updatePhone,
@@ -33,7 +32,7 @@ module.exports = {
     },
     login: (req, res) => {
         const body = req.body;
-        getUserByUserEmail(body.email, (err, results) => {
+        getUserByEmail(body.email, (err, results) => {
             if (err) {
                 console.log(err);
             }
@@ -46,7 +45,7 @@ module.exports = {
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
-                const jsontoken = sign({ result: results }, "qwe1234", {
+                const jsontoken = sign({ result: results }, process.env.secretKey, {
                     expiresIn: "1h"
                 });
                 return res.json({
@@ -60,38 +59,6 @@ module.exports = {
                     data: "Invalid email or password"
                 });
             }
-        });
-    },
-    getUserByUserId: (req, res) => {
-        const id = req.params.id;
-        getUserByUserId(id, (err, results) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            if (!results) {
-                return res.json({
-                    success: 0,
-                    message: "Record not Found"
-                });
-            }
-            results.password = undefined;
-            return res.json({
-                success: 1,
-                data: results
-            });
-        });
-    },
-    getUsers: (req, res) => {
-        getUsers((err, results) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            return res.json({
-                success: 1,
-                data: results
-            });
         });
     },
     updateUsers: (req, res) => {

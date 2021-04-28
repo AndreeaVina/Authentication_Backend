@@ -1,14 +1,16 @@
 const router = require("express").Router();
+const { checkToken } = require("../../auth/token_validation.js");
 const {
   createUser,
   login,
-  getUserByUserId,
-  getUsers,
+  // getUsers,
   updateUsers,
   deleteUser
 } = require("./user.controller");
-router.post("/", createUser);
-router.get("/", getUsers);
+const { getUserByEmail } = require("./user.service");
+router.post("/", checkToken, createUser);
+// router.get("/", checkToken, getUsers);
+// router.get("/:email", getUserByEmail);
+router.post("/login", login);
 router.patch("/", updateUsers);
-
 module.exports = router;
