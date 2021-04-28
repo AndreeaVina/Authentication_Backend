@@ -2,6 +2,8 @@ const {
     create,
     getUserByEmail,
     getUsers,
+    updateAdress,
+    updatePhone,
     deleteUser
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
