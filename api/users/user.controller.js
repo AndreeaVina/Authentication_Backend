@@ -106,7 +106,6 @@ module.exports = {
         console.log(body)
         updateAddress(body, (err, results) => {
             if (err) {
-                console.log(true)
                 return res.json({
                     success: 0,
                     message: err.message
