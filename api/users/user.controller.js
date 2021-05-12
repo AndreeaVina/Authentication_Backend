@@ -1,8 +1,9 @@
+const jwt_decode = require('jwt-decode');
 const {
     create,
     getUserByEmail,
     getUsers,
-    updateAdress,
+    updateAddress,
     updatePhone,
     createGmailAccount,
     deleteUser
@@ -10,15 +11,20 @@ const {
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const { OAuth2Client } = require('google-auth-library');
+const e = require("express");
 const CLIENT_ID = "623756543687-q8iv24tqqlii2kj876pfqkle5uqjstsp.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
 const jwt_decode = require('jwt-decode');
 
 module.exports = {
     createUser: (req, res) => {
-        const { body } = req;
-        body.id = Math.random() * 1000;
-        console.log(body);
+        const body = req.body;
+        if (body.password1 != body.password2) {
+            return res.status(500).json({
+                success: 0,
+                message: "Database connection errror"
+            });
+        }
         const salt = genSaltSync(10);
         body.password = hashSync(body.password, salt);
         create(body, (err, results) => {
@@ -115,30 +121,26 @@ module.exports = {
             })
             .catch(res.send("Token invalid"));
     },
-    updateUsers: (req, res) => {
+    updateAddressUser: (req, res) => {
         var body = req.body;
-        if (body.adress != undefined)
-            updateAdress(body, (err, results) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
+        //var token = req.body.token;
+        //var decoded = jwt_decode(token);
+        body.id = 34567
+        console.log(body)
+        updateAddress(body, (err, results) => {
+            if (err) {
+                return res.json({
+                    success: 0,
+                    message: err.message
+                })
+            }
+            else {
                 return res.json({
                     success: 1,
                     message: "updated successfully"
-                });
-            });
-        if (body.phone_number != undefined)
-            updatePhone(body, (err, results) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                return res.json({
-                    success: 1,
-                    message: "updated successfully"
-                });
-            });
+                })
+            }
+        });
     },
     deleteUser: (req, res) => {
         const data = req.body;
