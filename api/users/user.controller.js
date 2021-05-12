@@ -4,6 +4,7 @@ const {
     getUsers,
     updateAdress,
     updatePhone,
+    createGmailAccount,
     deleteUser
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
@@ -11,6 +12,7 @@ const { sign } = require("jsonwebtoken");
 const { OAuth2Client } = require('google-auth-library');
 const CLIENT_ID = "623756543687-q8iv24tqqlii2kj876pfqkle5uqjstsp.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
+const jwt_decode = require('jwt-decode');
 
 module.exports = {
     createUser: (req, res) => {
@@ -80,17 +82,38 @@ module.exports = {
                 idToken: token,
                 audience: CLIENT_ID,
             });
-            const payload = ticket.getPayload();
-            const userid = payload['sub'];
+            // const payload = ticket.getPayload();
+            // const userid = payload['sub'];
 
-            console.log(payload);
+            // console.log(payload);
         }
         verify()
             .then(() => {
                 res.cookie('session-token', token);
-                res.send('tokenul este valid')
+                var decoded = jwt_decode(token);
+                console.log(decoded);
+                const respo = {};
+                respo.id = 34567;
+                respo.name = decoded.given_name;
+                respo.surname = decoded.family_name;
+                respo.email = decoded.email;
+                createGmailAccount(respo, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({
+                            success: 0,
+                            message: "Database connection errror"
+                        });
+                    }
+                    return res.status(200).json({
+                        success: 1,
+                        data: results
+                    });
+                });
+                // res.send('tokenul este valid')
+                //res.redirect(); pagina furnizata de Ecaterina
             })
-            .catch(console.error);
+            .catch(res.send("Token invalid"));
     },
     updateUsers: (req, res) => {
         var body = req.body;

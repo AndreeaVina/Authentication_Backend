@@ -24,6 +24,22 @@ module.exports = {
             }
         );
     },
+    createGmailAccount: (data, callback) => {
+        pool.query(
+            `INSERT INTO users (id,name, surname, email) VALUES (?,?,?,?)`, [
+                data.id,
+                data.name,
+                data.surname,
+                data.email,
+            ],
+            (error, results, fiels) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        );
+    },
     getUsers: callBack => {
         pool.query(
             `select id,name,surname,email,adress from users`, [],
