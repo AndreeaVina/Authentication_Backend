@@ -3,8 +3,7 @@ const pool = require("../../config/database");
 module.exports = {
     create: (data, callback) => {
         pool.query(
-            `INSERT INTO users (id,name, surname, email, password, adress, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?,?)`, [
-            data.id,
+            `INSERT INTO users (name, surname, email, password, adress, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?)`, [
             data.name,
             data.surname,
             data.email,
@@ -35,10 +34,10 @@ module.exports = {
             }
         );
     },
-    updateAdress: (data, callback) => {
+    updateAddress: (data, callback) => {
         pool.query(
-            `update users set adress = ? where id= ?`, [
-            data.adress,
+            `update users set address = ? where id= ?`, [
+            data.address,
             data.id
         ],
             (error, results, fields) => {
