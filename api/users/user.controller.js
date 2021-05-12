@@ -8,6 +8,9 @@ const {
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
+const { OAuth2Client } = require('google-auth-library');
+const CLIENT_ID = "623756543687-q8iv24tqqlii2kj876pfqkle5uqjstsp.apps.googleusercontent.com";
+const client = new OAuth2Client(CLIENT_ID);
 
 module.exports = {
     createUser: (req, res) => {
@@ -45,7 +48,7 @@ module.exports = {
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
-                const jsontoken = sign({ result: results }, process.env.secretKey, {
+                const jsontoken = sign({ result: results.email }, process.env.secretKey, {
                     expiresIn: "1h"
                 });
                 return res.json({
@@ -60,6 +63,34 @@ module.exports = {
                 });
             }
         });
+    },
+    googleLogIn: (req, res) => {
+        res.render('loginGoogle.ejs');
+    },
+    logOut: (req, res) => {
+        res.clearCookie('session-token');
+        res.redirect('/loginGoogle.ejs')
+
+    },
+    checkGmailToken: (req, res) => {
+        var token = req.body.token;
+        console.log(token);
+        async function verify() {
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: CLIENT_ID,
+            });
+            const payload = ticket.getPayload();
+            const userid = payload['sub'];
+
+            console.log(payload);
+        }
+        verify()
+            .then(() => {
+                res.cookie('session-token', token);
+                res.send('tokenul este valid')
+            })
+            .catch(console.error);
     },
     updateUsers: (req, res) => {
         var body = req.body;
