@@ -4,18 +4,18 @@ module.exports = {
     create: (data, callback) => {
         pool.query(
             `INSERT INTO users (id,name, surname, email, password, adress, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?,?)`, [
-                data.id,
-                data.name,
-                data.surname,
-                data.email,
-                data.password,
-                data.adress,
-                data.phone_number,
-                data.isolated,
-                data.maxDistanceAccepted,
-                data.startHour,
-                data.finalHour
-            ],
+            data.id,
+            data.name,
+            data.surname,
+            data.email,
+            data.password1,
+            data.adress,
+            data.phone_number,
+            data.isolated,
+            data.maxDistanceAccepted,
+            data.startHour,
+            data.finalHour
+        ],
             (error, results, fiels) => {
                 if (error) {
                     return callback(error);
@@ -38,9 +38,9 @@ module.exports = {
     updateAdress: (data, callback) => {
         pool.query(
             `update users set adress = ? where id= ?`, [
-                data.adress,
-                data.id
-            ],
+            data.adress,
+            data.id
+        ],
             (error, results, fields) => {
                 if (error) {
                     callback(error);
@@ -52,9 +52,9 @@ module.exports = {
     updatePhone: (data, callback) => {
         pool.query(
             `update users set phone_number = ? where id= ?`, [
-                data.phone_number,
-                data.id
-            ],
+            data.phone_number,
+            data.id
+        ],
             (error, results, fields) => {
                 if (error) {
                     callback(error);
@@ -62,6 +62,21 @@ module.exports = {
                 return callback(null, results)
             }
         );
+    },
+    updateIsolated: (data, callBack) => {
+        pool.query(
+            `update users set isolated = ? where id= ?`,
+            [
+                data.isolated,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error)
+                }
+                return callBack(null, results)
+            }
+        )
     },
     getUserByEmail: (email, callBack) => {
         pool.query(
