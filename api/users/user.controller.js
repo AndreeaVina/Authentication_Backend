@@ -14,7 +14,6 @@ const { OAuth2Client } = require('google-auth-library');
 const e = require("express");
 const CLIENT_ID = "623756543687-q8iv24tqqlii2kj876pfqkle5uqjstsp.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
-const jwt_decode = require('jwt-decode');
 
 module.exports = {
     createUser: (req, res) => {
@@ -56,7 +55,7 @@ module.exports = {
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
-                const jsontoken = sign({ result: results.email }, process.env.secretKey, {
+                const jsontoken = sign({ results }, process.env.secretKey, {
                     expiresIn: "1h"
                 });
                 return res.json({
@@ -99,7 +98,6 @@ module.exports = {
                 var decoded = jwt_decode(token);
                 console.log(decoded);
                 const respo = {};
-                respo.id = 34567;
                 respo.name = decoded.given_name;
                 respo.surname = decoded.family_name;
                 respo.email = decoded.email;
@@ -119,7 +117,12 @@ module.exports = {
                 // res.send('tokenul este valid')
                 //res.redirect(); pagina furnizata de Ecaterina
             })
-            .catch(res.send("Token invalid"));
+            .catch((error) => {
+                return res.status(500).json({
+                    success: 0,
+                    data: "token invalid"
+                });
+            })
     },
     updateAddressUser: (req, res) => {
         var body = req.body;
@@ -133,8 +136,7 @@ module.exports = {
                     success: 0,
                     message: err.message
                 })
-            }
-            else {
+            } else {
                 return res.json({
                     success: 1,
                     message: "updated successfully"
