@@ -101,5 +101,16 @@ module.exports = {
                 return callBack(null, results[0]);
             }
         );
+    },
+    getUserById: (id, callBack) => {
+        pool.query(
+            `select * from users where id = ?`, [id],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
     }
 };
