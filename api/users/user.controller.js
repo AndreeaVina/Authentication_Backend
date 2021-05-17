@@ -14,19 +14,19 @@ const { OAuth2Client } = require('google-auth-library');
 const e = require("express");
 const CLIENT_ID = "623756543687-q8iv24tqqlii2kj876pfqkle5uqjstsp.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
-const jwt_decode = require('jwt-decode');
 
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
+        console.log(body)
         if (body.password1 != body.password2) {
             return res.status(500).json({
                 success: 0,
-                message: "Database connection errror"
+                message: "not ok"
             });
         }
         const salt = genSaltSync(10);
-        body.password = hashSync(body.password, salt);
+        body.password1 = hashSync(body.password1, salt);
         create(body, (err, results) => {
             if (err) {
                 console.log(err);

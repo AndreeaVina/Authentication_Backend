@@ -3,9 +3,10 @@ const pool = require("../../config/database");
 module.exports = {
     create: (data, callback) => {
         pool.query(
-            `INSERT INTO users (name, surname, email, password, adress, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?)`, [
+            `INSERT INTO users (name, surname, userName,email, password, adress, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?,?)`, [
             data.name,
             data.surname,
+            data.username,
             data.email,
             data.password1,
             data.adress,
@@ -26,11 +27,11 @@ module.exports = {
     createGmailAccount: (data, callback) => {
         pool.query(
             `INSERT INTO users (id,name, surname, email) VALUES (?,?,?,?)`, [
-                data.id,
-                data.name,
-                data.surname,
-                data.email,
-            ],
+            data.id,
+            data.name,
+            data.surname,
+            data.email,
+        ],
             (error, results, fiels) => {
                 if (error) {
                     return callback(error);
