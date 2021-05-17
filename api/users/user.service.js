@@ -81,11 +81,10 @@ module.exports = {
     },
     updateIsolated: (data, callBack) => {
         pool.query(
-            `update users set isolated = ? where id= ?`,
-            [
-                data.isolated,
-                data.id
-            ],
+            `update users set isolated = ? where id= ?`, [
+            data.isolated,
+            data.id
+        ],
             (error, results, fields) => {
                 if (error) {
                     callBack(error)
@@ -97,6 +96,17 @@ module.exports = {
     getUserByEmail: (email, callBack) => {
         pool.query(
             `select * from users where email = ?`, [email],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    },
+    getUserById: (id, callBack) => {
+        pool.query(
+            `select * from users where id = ?`, [id],
             (error, results, fields) => {
                 if (error) {
                     callBack(error);

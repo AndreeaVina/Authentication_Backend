@@ -56,7 +56,7 @@ module.exports = {
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
-                const jsontoken = sign({ result: results.email }, process.env.secretKey, {
+                const jsontoken = sign({ results }, process.env.secretKey, {
                     expiresIn: "1h"
                 });
                 return res.json({
@@ -80,6 +80,54 @@ module.exports = {
         res.redirect('/loginGoogle.ejs')
 
     },
+    endPointList: (req, res) => {
+        var body = req.body;
+        var decoded = jwt_decode(body.token);
+        getUserById(decoded.id,(err, results)=>
+        {
+            if (err) {
+                console.log(err);
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    data: "Invalid id" //endpoint validare
+                });
+            }
+            
+            //cred ca am putea sa bagam inca un if in fiecare if si sa returnam un res.status in cazul in care nu exista din datele cerute in baza de date
+            if (decoded.name){
+                res.name=results.name;
+            }
+            if (decoded.surname){
+                res.surname=results.surname;
+            }
+            if (decoded.email){
+                res.email=results.email;
+            }
+            if (decoded.adress){
+                res.adress=results.adress;
+            }
+            if (decoded.phone_number){
+                res.phone_number=results.phone_number;
+            }
+            if (decoded.isolated){
+                res.isolated=results.isolated;
+            }
+            if (decoded.maxDistanceAccepted){
+                res.maxDistanceAccepted=results.maxDistanceAccepted;
+            }
+            if (decoded.startHour){
+                res.startHour=results.startHour;
+            }
+            if (decoded.finalHour){
+                res.finalHour=results.finalHour;
+            }
+            //endpoint cu lista de cereri
+
+        });
+
+    },
     checkGmailToken: (req, res) => {
         var token = req.body.token;
         console.log(token);
@@ -99,7 +147,6 @@ module.exports = {
                 var decoded = jwt_decode(token);
                 console.log(decoded);
                 const respo = {};
-                respo.id = 34567;
                 respo.name = decoded.given_name;
                 respo.surname = decoded.family_name;
                 respo.email = decoded.email;
@@ -119,7 +166,12 @@ module.exports = {
                 // res.send('tokenul este valid')
                 //res.redirect(); pagina furnizata de Ecaterina
             })
-            .catch(res.send("Token invalid"));
+            .catch((error) => {
+                return res.status(500).json({
+                    success: 0,
+                    data: "token invalid"
+                });
+            })
     },
     updateAddressUser: (req, res) => {
         var body = req.body;
@@ -133,8 +185,7 @@ module.exports = {
                     success: 0,
                     message: err.message
                 })
-            }
-            else {
+            } else {
                 return res.json({
                     success: 1,
                     message: "updated successfully"
