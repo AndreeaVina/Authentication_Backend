@@ -13,7 +13,7 @@ const {
     deleteUser
 } = require("./user.controller");
 const { getUserByEmail } = require("./user.service");
-router.post("/", checkToken, createUser);
+router.post("/", createUser);
 // router.get("/", checkToken, getUsers);
 // router.get("/:email", getUserByEmail);
 router.post("/login", login);
