@@ -14,3 +14,74 @@ maxDistanceAccepted DOUBLE(10,3),
 startHour TIME,
 finalHour TIME
 );
+
+create table matching
+(
+    ID             int         not null
+        primary key,
+    usernameNeeder varchar(30) not null,
+    usernameHelper varchar(30) not null,
+    dateMatching   varchar(30) null
+);
+
+create table needs
+(
+    ID   int         not null,
+    name varchar(30) null,
+    type varchar(10) not null,
+    constraint Needs_ID_uindex
+        unique (ID)
+);
+
+alter table needs
+    add primary key (ID);
+
+create table helper
+(
+    idUser           int                  not null
+        primary key,
+    distanceAccepted varchar(10)          not null,
+    isAvailable      tinyint(1) default 1 null,
+    constraint generalizationHelper
+        foreign key (idUser) references user (ID)
+);
+
+create table needer
+(
+    idUser     int                  not null
+        primary key,
+    isIsolated tinyint(1) default 0 not null,
+    constraint generalizationNeeder
+        foreign key (idUser) references user (ID)
+);
+
+create table offering
+(
+    idNeeds  int          not null,
+    idHelper int          not null,
+    quantity int          null,
+    details  varchar(100) null,
+    constraint offering_pk
+        unique (idHelper, idNeeds),
+    constraint helper__fk
+        foreign key (idHelper) references helper (idUser),
+    constraint material___fk
+        foreign key (idNeeds) references needs (ID)
+);
+
+create table request
+(
+    idNeeder int          not null,
+    idNeeds  int          not null,
+    quantity int          null,
+    details  varchar(100) null,
+    constraint request_pk
+        unique (idNeeder, idNeeds),
+    constraint materialn___fk
+        foreign key (idNeeds) references needs (ID),
+    constraint needer___fk
+        foreign key (idNeeder) references needer (idUser)
+);
+
+alter table request
+    add primary key (idNeeder, idNeeds);
