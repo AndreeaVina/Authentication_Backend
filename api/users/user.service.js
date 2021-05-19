@@ -117,8 +117,7 @@ module.exports = {
     },
     updateMaxDistance: (data, callBack) => {
         pool.query(
-            `update users set maxDistanceAccepted = ? where id=?`,
-            [
+            `update users set maxDistanceAccepted = ? where id=?`, [
                 data.maxDistanceAccepted,
                 data.id
             ],
@@ -132,8 +131,7 @@ module.exports = {
     },
     updateStartHour: (data, callBack) => {
         pool.query(
-            `update users set startHour = ? where id=?`,
-            [
+            `update users set startHour = ? where id=?`, [
                 data.startHour,
                 data.id
             ],
@@ -147,8 +145,7 @@ module.exports = {
     },
     updateFinalHour: (data, callBack) => {
         pool.query(
-            `update users set finalHour = ? where id=?`,
-            [
+            `update users set finalHour = ? where id=?`, [
                 data.finalHour,
                 data.id
             ],
@@ -162,8 +159,7 @@ module.exports = {
     },
     updateSurname: (data, callBack) => {
         pool.query(
-            `update users set surname = ? where id=?`,
-            [
+            `update users set surname = ? where id=?`, [
                 data.surname,
                 data.id
             ],
@@ -177,8 +173,7 @@ module.exports = {
     },
     updateName: (data, callBack) => {
         pool.query(
-            `update users set name = ? where id=?`,
-            [
+            `update users set name = ? where id=?`, [
                 data.name,
                 data.id
             ],
