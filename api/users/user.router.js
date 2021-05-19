@@ -13,12 +13,12 @@ const {
     deleteUser
 } = require("./user.controller");
 const { getUserByEmail } = require("./user.service");
-router.post("/", createUser);
+router.post("/register", createUser);
 // router.get("/", checkToken, getUsers);
 // router.get("/:email", getUserByEmail);
 router.post("/login", login);
 router.patch("/update", update);
 router.get("/GoogleLogIn", googleLogIn);
 router.get("/logOut", logOut);
-router.post("/GoogleLogIn", checkGmailToken);
+router.post("/GmailRegister", checkGmailToken);
 module.exports = router;

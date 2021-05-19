@@ -25,7 +25,7 @@ module.exports = {
         if (body.password1 != body.password2) {
             return res.status(500).json({
                 success: 0,
-                message: "not ok"
+                message: "passwords don't match"
             });
         }
         const salt = genSaltSync(10);
@@ -53,14 +53,14 @@ module.exports = {
             if (!results) {
                 return res.json({
                     success: 0,
-                    data: "Invalid email or password"
+                    data: "invalid email"
                 });
             }
             const result = compareSync(body.password, results.password);
             if (result) {
                 results.password = undefined;
                 const jsontoken = sign({ results }, process.env.secretKey, {
-                    expiresIn: "1h"
+                    expiresIn: "24h"
                 });
                 return res.json({
                     success: 1,
@@ -70,12 +70,12 @@ module.exports = {
             } else {
                 return res.json({
                     success: 0,
-                    data: "Invalid email or password"
+                    data: "invalid password"
                 });
             }
         });
     },
-    googleLogIn: (req, res) => {
+    GmailRegister: (req, res) => {
         res.render('loginGoogle.ejs');
     },
     logOut: (req, res) => {
@@ -138,10 +138,7 @@ module.exports = {
                 idToken: token,
                 audience: CLIENT_ID,
             });
-            // const payload = ticket.getPayload();
-            // const userid = payload['sub'];
 
-            // console.log(payload);
         }
         verify()
             .then(() => {
