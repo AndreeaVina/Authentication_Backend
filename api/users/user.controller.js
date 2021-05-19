@@ -9,7 +9,8 @@ const {
     deleteUser,
     updateMaxDistance,
     updateStartHour,
-    updateSurname
+    updateSurname,
+    updateName
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -179,6 +180,9 @@ module.exports = {
         body.id = decoded.results.id
         console.log(body)
         getUserByEmail(decoded.results.email, (err, results) => {
+            res.json({
+                success: true
+            })
             if (err) {
                 res.json({
                     success: 0,
@@ -192,6 +196,7 @@ module.exports = {
                 })
             }
             else {
+                var ok = false;
                 if (body.surname != undefined) {
                     updateSurname(body, (err, results) => {
                         if (err) {
