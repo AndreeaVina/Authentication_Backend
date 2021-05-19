@@ -114,5 +114,80 @@ module.exports = {
                 return callBack(null, results[0]);
             }
         );
-    }
+    },
+    updateMaxDistance: (data, callBack) => {
+        pool.query(
+            `update users set maxDistanceAccepted = ? where id=?`,
+            [
+                data.maxDistanceAccepted,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        )
+    },
+    updateStartHour: (data, callBack) => {
+        pool.query(
+            `update users set startHour = ? where id=?`,
+            [
+                data.startHour,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        )
+    },
+    updateFinalHour: (data, callBack) => {
+        pool.query(
+            `update users set finalHour = ? where id=?`,
+            [
+                data.finalHour,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        )
+    },
+    updateSurname: (data, callBack) => {
+        pool.query(
+            `update users set surname = ? where id=?`,
+            [
+                data.surname,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        )
+    },
+    updateName: (data, callBack) => {
+        pool.query(
+            `update users set name = ? where id=?`,
+            [
+                data.name,
+                data.id
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        )
+    },
 };

@@ -6,7 +6,10 @@ const {
     updateAddress,
     updatePhone,
     createGmailAccount,
-    deleteUser
+    deleteUser,
+    updateMaxDistance,
+    updateStartHour,
+    updateSurname
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -208,25 +211,99 @@ module.exports = {
                 });
             })
     },
-    updateAddressUser: (req, res) => {
-        var body = req.body;
-        //var token = req.body.token;
-        //var decoded = jwt_decode(token);
-        body.id = 34567
+    update: (req, res) => {
+        console.log(req.headers.authorization.split(" ")[1])
+        var body = req.body
+        var decoded = jwt_decode(req.headers.authorization.split(" ")[1])
+        body.id = decoded.results.id
         console.log(body)
-        updateAddress(body, (err, results) => {
+        getUserByEmail(decoded.results.email, (err, results) => {
             if (err) {
-                return res.json({
+                res.json({
                     success: 0,
                     message: err.message
                 })
-            } else {
-                return res.json({
-                    success: 1,
-                    message: "updated successfully"
+            }
+            else if (results == undefined) {
+                res.json({
+                    success: 0,
+                    message: "not exist"
                 })
             }
-        });
+            else {
+                if (body.surname != undefined) {
+                    updateSurname(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.name != undefined) {
+                    updateName(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.address != undefined) {
+                    updateAddress(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.phone_number != undefined) {
+                    updatePhone(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.maxDistanceAccepted != undefined) {
+                    updateMaxDistance(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.startHour != undefined) {
+                    updateStartHour(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+                if (body.finalHour != undefined) {
+                    updateFinalHour(body, (err, results) => {
+                        if (err) {
+                            res.json({
+                                success: 0,
+                                message: err.message
+                            })
+                        }
+                    })
+                }
+            }
+        })
+        return res
     },
     deleteUser: (req, res) => {
         const data = req.body;
