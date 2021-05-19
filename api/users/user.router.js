@@ -6,6 +6,9 @@ const {
     createUser,
     login,
     // getUsers,
+    updateAddressUser,
+    GmailRegister,
+    GmailLogIn,
     update,
     googleLogIn,
     checkGmailToken,
@@ -17,6 +20,9 @@ router.post("/register", createUser);
 // router.get("/", checkToken, getUsers);
 // router.get("/:email", getUserByEmail);
 router.post("/login", login);
+router.patch("/update", update);
+router.get("/GmailRegister", GmailRegister);
+router.post("/GmailLogIn", GmailLogIn);
 router.patch("/update", update);
 router.get("/GoogleLogIn", googleLogIn);
 router.get("/logOut", logOut);

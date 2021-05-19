@@ -66,6 +66,7 @@ module.exports = {
                 return res.json({
                     success: 1,
                     message: "login successfully",
+                    username: results.userName,
                     token: jsontoken
                 });
             } else {
@@ -129,6 +130,44 @@ module.exports = {
             //endpoint cu lista de cereri
 
         });
+
+    },
+    GmailLogIn: (req, res) => {
+        var token = req.body.token;
+        console.log(token);
+        async function verify() {
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: CLIENT_ID,
+            });
+        }
+        verify()
+            .then(() => {
+                res.cookie('session-token', token);
+                var decoded = jwt_decode(token);
+                console.log(decoded);
+                getUserByEmail(decoded.email, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({
+                            success: 0,
+                            message: "Database connection errror"
+                        });
+                    }
+                    return res.status(200).json({
+                        success: 1,
+                        data: token
+                    });
+                });
+                // res.send('tokenul este valid')
+                //res.redirect(); pagina furnizata de Ecaterina
+            })
+            .catch((error) => {
+                return res.status(500).json({
+                    success: 0,
+                    data: "token invalid"
+                });
+            })
 
     },
     checkGmailToken: (req, res) => {
