@@ -4,7 +4,7 @@ const app = express();
 var cors = require('cors')
 const userRouter = require("./api/users/user.router");
 
-aap.use(cors())
+app.use(cors())
 app.use(express.json());
 app.use("/api/users", userRouter);
 
