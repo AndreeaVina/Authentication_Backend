@@ -82,6 +82,7 @@ module.exports = {
             }
         });
     },
+
     GmailRegister: (req, res) => {
         res.render('loginGoogle.ejs');
     },
