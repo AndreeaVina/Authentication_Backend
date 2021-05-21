@@ -8,6 +8,7 @@ const {
     createGmailAccount,
     deleteUser,
     updateMaxDistance,
+    getAllUsers,
     updateStartHour,
     updateSurname,
     updateName
@@ -302,6 +303,25 @@ module.exports = {
             return res.json({
                 success: 1,
                 message: "user deleted successfully"
+            });
+        });
+    },
+    getUsers: (req, res) => {
+        const data = req.body;
+        getAllUsers((err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "no users found"
+                });
+            }
+            return res.json({
+                success: 1,
+                message: results
             });
         });
     }

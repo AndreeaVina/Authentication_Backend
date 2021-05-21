@@ -1,6 +1,17 @@
 const pool = require("../../config/database");
 
 module.exports = {
+    getAllUsers: (callback) => {
+        pool.query(
+            `SELECT *FROM users`, [],
+            (error, results, fiels) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        );
+    },
     create: (data, callback) => {
         pool.query(
             `INSERT INTO users (name, surname, userName,email, password, address, phone_number, isolated , maxDistanceAccepted, startHour , finalHour) VALUES (?,?,?,?,?,?,?,?,?,?,?)`, [
