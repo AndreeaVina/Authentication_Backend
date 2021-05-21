@@ -42,7 +42,7 @@ module.exports = {
             }
             return res.status(200).json({
                 success: 1,
-                data: results
+                message: results
             });
         });
     },
@@ -55,7 +55,9 @@ module.exports = {
             if (!results) {
                 return res.json({
                     success: 0,
-                    data: "invalid email"
+                    message: "invalid email",
+                    token: "",
+                    username: ""
                 });
             }
             const result = compareSync(body.password, results.password);
@@ -73,7 +75,9 @@ module.exports = {
             } else {
                 return res.json({
                     success: 0,
-                    data: "invalid password"
+                    message: "invalid password",
+                    token: "",
+                    username: ""
                 });
             }
         });
@@ -110,7 +114,7 @@ module.exports = {
                     }
                     return res.status(200).json({
                         success: 1,
-                        data: token
+                        message: token
                     });
                 });
                 // res.send('tokenul este valid')
@@ -119,7 +123,7 @@ module.exports = {
             .catch((error) => {
                 return res.status(500).json({
                     success: 0,
-                    data: "token invalid"
+                    message: "token invalid"
                 });
             })
 
@@ -153,7 +157,7 @@ module.exports = {
                     }
                     return res.status(200).json({
                         success: 1,
-                        data: results
+                        message: results
                     });
                 });
                 // res.send('tokenul este valid')
@@ -162,7 +166,7 @@ module.exports = {
             .catch((error) => {
                 return res.status(500).json({
                     success: 0,
-                    data: "token invalid"
+                    message: "token invalid"
                 });
             })
     },
