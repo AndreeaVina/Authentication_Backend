@@ -159,7 +159,7 @@ module.exports = {
                     }
                     return res.status(200).json({
                         success: 1,
-                        message: results
+                        message: "account successfully created"
                     });
                 });
                 // res.send('tokenul este valid')
