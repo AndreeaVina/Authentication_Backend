@@ -11,7 +11,8 @@ const {
     getAllUsers,
     updateStartHour,
     updateSurname,
-    updateName
+    updateName,
+    getInfoUser
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -324,5 +325,32 @@ module.exports = {
                 message: results
             });
         });
+    },
+    getInfoUser: (req, res) => {
+        console.log(req.headers.authorization.split(" ")[1])
+        var body = req.body
+        var decoded = jwt_decode(req.headers.authorization.split(" ")[1])
+        body.id = decoded.results.id;
+        getInfoUser(body.id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: 0,
+                    message: err.message
+                })
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record Not Found"
+                });
+            }
+            results.password = undefined
+            results.id = undefined
+            return res.json({
+                success: 1,
+                message: results
+            })
+        })
     }
 };

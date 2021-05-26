@@ -15,9 +15,9 @@ const {
     logOut,
     getUsers,
     checkToken2,
-    deleteUser
+    deleteUser,
+    getInfoUser
 } = require("./user.controller");
-const { getUserByEmail } = require("./user.service");
 router.post("/register", createUser);
 // router.get("/", checkToken, getUsers);
 // router.get("/:email", getUserByEmail);
@@ -30,5 +30,6 @@ router.get("/GmailLogIn", GmailLogIn);
 router.get("/logOut", logOut);
 router.post("/GmailRegister", checkGmailToken);
 router.get("/getUsers", getUsers);
+router.get("/getInfoUser", getInfoUser)
 // router.get("/checkLoggedIn", checkLoggedIn);
 module.exports = router;
