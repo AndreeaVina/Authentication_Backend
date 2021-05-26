@@ -13,6 +13,8 @@ const {
     updateSurname,
     updateName,
     getInfoUser
+    searchUserName,
+    searchEmail,
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -34,7 +36,7 @@ module.exports = {
         }
         const salt = genSaltSync(10);
         body.password1 = hashSync(body.password1, salt);
-        create(body, (err, results) => {
+        searchEmail(body.email, (err, results) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({
@@ -42,10 +44,41 @@ module.exports = {
                     message: "Database connection errror"
                 });
             }
-            return res.status(200).json({
-                success: 1,
-                message: results
-            });
+            if (results)
+                return res.status(200).json({
+                    success: 1,
+                    message: "this email already exists"
+                });
+            else {
+                searchUserName(body.userName, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({
+                            success: 0,
+                            message: "Database connection errror"
+                        });
+                    } else if (results) {
+                        return res.status(200).json({
+                            success: 1,
+                            message: "this username already exists"
+                        });
+                    } else {
+                        create(body, (err, results) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500).json({
+                                    success: 0,
+                                    message: "Database connection errror"
+                                });
+                            }
+                            return res.status(200).json({
+                                success: 1,
+                                message: "user successfully created"
+                            });
+                        });
+                    }
+                });
+            }
         });
     },
     login: (req, res) => {
@@ -160,7 +193,7 @@ module.exports = {
                     }
                     return res.status(200).json({
                         success: 1,
-                        message: results
+                        message: "account successfully created"
                     });
                 });
                 // res.send('tokenul este valid')

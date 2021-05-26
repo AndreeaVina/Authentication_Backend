@@ -70,7 +70,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callback(error);
+                    return callback(error);
                 }
                 return callback(null, results)
             }
@@ -84,7 +84,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callback(error);
+                    return callback(error);
                 }
                 return callback(null, results)
             }
@@ -98,7 +98,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error)
+                    return callBack(error)
                 }
                 return callBack(null, results)
             }
@@ -109,7 +109,7 @@ module.exports = {
             `select * from users where email = ?`, [email],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -120,7 +120,7 @@ module.exports = {
             `select * from users where id = ?`, [id],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -134,7 +134,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -148,7 +148,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -162,7 +162,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -176,7 +176,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -190,7 +190,7 @@ module.exports = {
         ],
             (error, results, fields) => {
                 if (error) {
-                    callBack(error);
+                    return callBack(error);
                 }
                 return callBack(null, results[0]);
             }
@@ -207,7 +207,28 @@ module.exports = {
                     callBack(error);
                 }
                 return callBack(null, results[0]);
+            })
+    },
+    searchEmail: (email, callBack) => {
+        pool.query(
+            `select * from users where email = ?`, [email],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
             }
-        )
+        );
+    },
+    searchUserName: (userName, callBack) => {
+        pool.query(
+            `select * from users where userName = ?`, [userName],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
     }
 };
