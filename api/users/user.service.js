@@ -196,4 +196,26 @@ module.exports = {
             }
         )
     },
+    searchEmail: (email, callBack) => {
+        pool.query(
+            `select * from users where email = ?`, [email],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    },
+    searchUserName: (userName, callBack) => {
+        pool.query(
+            `select * from users where userName = ?`, [userName],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    }
 };
