@@ -46,7 +46,7 @@ module.exports = {
             }
             if (results)
                 return res.status(200).json({
-                    success: 1,
+                    success: 0,
                     message: "this email already exists"
                 });
             else {
@@ -59,7 +59,7 @@ module.exports = {
                         });
                     } else if (results) {
                         return res.status(200).json({
-                            success: 1,
+                            success: 0,
                             message: "this username already exists"
                         });
                     } else {
