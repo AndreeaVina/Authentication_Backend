@@ -14,7 +14,8 @@ const {
     updateName,
     getInfoUser,
     searchUserName,
-    searchEmail
+    searchEmail,
+    updateFinalHour
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
