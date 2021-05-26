@@ -12,9 +12,9 @@ const {
     updateStartHour,
     updateSurname,
     updateName,
-    getInfoUser
+    getInfoUser,
     searchUserName,
-    searchEmail,
+    searchEmail
 } = require("./user.service");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
